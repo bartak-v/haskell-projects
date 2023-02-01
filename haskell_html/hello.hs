@@ -41,3 +41,45 @@ el tag content =
 
 --three2 :: Integer
 --three2 = (\num1 num2 -> num1 + num2) 1 2
+
+-- New types 
+-- Think of Html (costructor on right) as Html :: String -> Html
+-- newtype <type-name> = <constructor> <existing-type>
+newtype Html = Html String
+newtype Structure = Structure String
+
+-- No constructor / renaming
+type Title = String
+
+-- Use new types using pattern matching
+{-
+case <expression> of
+  <pattern> -> <expression>
+  ...
+  <pattern> -> <expression>
+-}
+getStructureString :: Structure -> String
+getStructureString struct =
+  case struct of
+    Structure str -> str
+
+-- Alternative pattern matching on arguments
+-- func <pattern> = <expression>
+getStructureString2 :: Structure -> String
+getStructureString2 (Structure str) = str
+
+-- Chaining functions (pronounced compose)
+{- 
+(.) :: (b -> c) -> (a -> b) -> a -> c
+(.) f g x = f (g x) 
+-}
+
+--- Our version of <>
+append_ :: Structure -> Structure -> Structure
+append_ (Structure a) (Structure b) =
+  Structure (a <> b)
+
+render :: Html -> String
+render html =
+  case html of
+    Html str -> str

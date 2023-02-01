@@ -37,7 +37,7 @@ p_ = Structure . el "p"
 h1_ :: String -> Structure
 h1_ = Structure . el "h1"
 
-el :: String -> String -> String
+el :: String -> (String -> String)
 el tag content =
   "<" <> tag <> ">" <> content <> "</" <> tag <> ">"
 
@@ -50,7 +50,6 @@ getStructureString content =
   case content of
     Structure str -> str
 
+-- Alternative syntax
 render :: Html -> String
-render html =
-  case html of
-    Html str -> str
+render (Html html) = html

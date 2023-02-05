@@ -1,7 +1,7 @@
 module Html
   ( Html
   , Title
-  , SimpleStructure
+  , Structure
   , html_
   , p_
   , h1_

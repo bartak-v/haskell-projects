@@ -1,5 +1,7 @@
 module Html.Internal where
 import Html.Markup
+import Data.Binary
+import Data.Maybe
 
 -- * Types
 
@@ -149,7 +151,90 @@ trim = unwords . words
 
 
 
+-- Excercises
+-- | A data type representing colors
+data Color
+  = RGB Word8 Word8 Word8
 
+getBluePart :: Color -> Word8
+getBluePart color =
+  case color of
+    RGB _ _ blue -> blue
+
+data Brightness
+  = Dark
+  | Bright
+
+data EightColor
+  = Black
+  | Red
+  | Green
+  | Yellow
+  | Blue
+  | Magenta
+  | Cyan
+  | White
+
+data AnsiColor
+  = AnsiColor Brightness EightColor
+
+ansiColorToVGA :: AnsiColor -> Color
+ansiColorToVGA ansicolor =
+  case ansicolor of
+    AnsiColor Dark Black ->
+      RGB 0 0 0
+    AnsiColor Bright Black ->
+      RGB 85 85 85
+    AnsiColor Dark Red ->
+      RGB 170 0 0
+    AnsiColor Bright Red ->
+      RGB 255 85 85
+    -- and so on
+
+isBright :: AnsiColor -> Bool
+isBright color =
+  case color of
+    AnsiColor Bright _ -> True
+    AnsiColor Dark _ -> False
+
+ansiToUbuntu :: AnsiColor -> Color
+ansiToUbuntu ansiColor =
+  case ansiColor of
+    AnsiColor brightness color ->
+      case brightness of
+        Dark ->
+          case color of
+            Black -> RGB 0 0 0
+            Red -> RGB 194 54 33
+            Green -> RGB 37 188 36
+            Yellow -> RGB 173 173 39
+            Blue -> RGB 73 46 225
+            Magenta -> RGB 211 56 211
+            Cyan -> RGB 51 187 200
+            White -> RGB 203 204 205
+        
+        Bright ->
+          case color of
+            Black -> RGB 129 131 131
+            Red -> RGB 252 57 31
+            Green -> RGB 49 231 34
+            Yellow -> RGB 234 236 35
+            Blue -> RGB 88 51 255
+            Magenta -> RGB 249 53 248
+            Cyan -> RGB 20 240 240
+            White -> RGB 233 235 235
+
+isEmpty :: [a] -> Bool
+isEmpty list =
+  case listToMaybe list of
+    Nothing -> True
+    Just _ -> False
+
+isEmpty2 :: [a] -> Bool
+isEmpty2 list =
+  case list of
+    [] -> True
+    _ : _ -> False
 
 -- map :: (a -> b) -> [a] -> [b]
 -- concat :: [[a]] -> [a]

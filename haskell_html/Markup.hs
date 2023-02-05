@@ -1,4 +1,4 @@
-module Html.Markup
+module Markup
   ( Document
   , Structure(..)
   , parse

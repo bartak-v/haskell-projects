@@ -2,6 +2,7 @@
 module Html.Internal where
 import Data.Binary
 import Data.Maybe
+import GHC.Natural
 
 -- * Types
 
@@ -28,8 +29,8 @@ html_ title content =
 p_ :: String -> Structure
 p_ = Structure . el "p" . escape
 
-h1_ :: String -> Structure
-h1_ = Structure . el "h1" . escape
+h_ :: Natural -> String -> Structure
+h_ n = Structure . el ("h" <> show n) . escape
 
 ul_ :: [Structure] -> Structure
 ul_ =
@@ -41,6 +42,13 @@ ol_ =
 
 code_ :: String -> Structure
 code_ = Structure . el "pre" . escape
+
+empty_ :: Structure
+empty_ = Structure ""
+
+instance Monoid Structure where
+  mempty :: Structure
+  mempty = empty_
 
 -- Append
 instance Semigroup Structure where

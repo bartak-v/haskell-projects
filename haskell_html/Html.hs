@@ -4,11 +4,12 @@ module Html
   , Structure
   , html_
   , p_
-  , h1_
+  , h_
   , render
   , ul_
   , ol_
   , code_
+  , empty_
   )
   where
 

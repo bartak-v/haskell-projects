@@ -272,3 +272,45 @@ example4 =
   , Paragraph "Otherwise, it will only produce the .o and .hi files."
   ]
 -}
+
+-- IO () and IO operators
+
+confirm :: IO Bool
+confirm =
+  putStrLn "Are you sure? (y/n)" *>
+    getLine >>= \answer ->
+      case answer of
+        "y" -> pure True
+        "n" -> pure False
+        _ ->
+          putStrLn "Invalid response. use y or n" *>
+            confirm
+
+whenIO :: IO Bool -> IO () -> IO ()
+whenIO cond action =
+  cond >>= \result ->
+    if result
+      then action
+      else pure ()
+
+
+wIO =
+  putStrLn "This program will tell you a secret" *>
+    whenIO confirm (putStrLn "IO is actually pretty awesome") *>
+      putStrLn "Bye"
+{-
+-- chaining IO operations: passing the *result* of the left IO operation
+-- as an argument to the function on the right.
+-- Pronounced "bind".
+(>>=) :: IO a -> (a -> IO b) -> IO b
+
+-- sequence two IO operations, discarding the payload of the first.
+(*>) :: IO a -> IO b -> IO b
+
+-- "lift" a value into IO context, does not add any I/O effects.
+pure :: a -> IO a
+
+-- "map" (or apply a function) over the payload value of an IO (monadic) operation.
+fmap :: (a -> b) -> IO a -> IO b
+-}
+

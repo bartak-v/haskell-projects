@@ -1,6 +1,7 @@
 module Html.Markup
   ( Document
   , Structure(..)
+  , Context(..)
   )
 where
 
@@ -16,3 +17,10 @@ data Structure
   | OrderedList [String]
   | CodeBlock [String]
   deriving Show
+
+data Context
+  = CtxHeading Natural String
+  | CtxParagraph [String]
+  | CtxUnorderedList [String]
+  | CtxOrderedList [String]
+  | CtxCodeBlock [String]

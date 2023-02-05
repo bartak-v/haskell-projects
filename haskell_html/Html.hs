@@ -1,11 +1,10 @@
 module Html
   ( Html
   , Title
-  , Structure
+  , SimpleStructure
   , html_
   , p_
   , h1_
-  , append_
   , render
   , ul_
   , ol_

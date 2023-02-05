@@ -88,9 +88,11 @@ ol_ :: [SimpleStructure] -> SimpleStructure
 ol_  = SimpleStructure . el "ol" . concatMap (el "li" . getSimpleStructureString)
 
 
-append_ :: SimpleStructure -> SimpleStructure -> SimpleStructure
-append_ c1 c2 =
-  SimpleStructure (getSimpleStructureString c1 <> getSimpleStructureString c2)
+-- Append
+instance Semigroup SimpleStructure where
+  (<>) c1 c2 =
+    SimpleStructure (getSimpleStructureString c1 <> getSimpleStructureString c2)
+
 
 -- * Render
 
